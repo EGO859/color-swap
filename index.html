@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src=""></script>
+    <title>final project js start</title>
+</head>
+<body>
+<!-- 
+    1. Принять от пользователя имена людей для набора в команду. Имена принять и сохранить в новом массиве. Количество имён должно соответсвовать количеству должностей. Массив с должностями - ['Junior developer', 'Middle developer', 'Senior developer', 'Junior QA', 'Middle QA', 'Senior QA', 'Project manager'].
+    2. Создать объект team в котором будут храниться новые объекты-сотрудники с параметрами name и position, данные для этих свойств добавляем из массивов.
+    3. Добавить сотрудникам зарплаты (свойство salary) при помощи метода Math.random(), который будет выдавать произвольное число в промежутке между N1 и N2 исходя из принципа:
+    если в должности есть слово "junior" сумма будет от 500 до 1000;
+    если в должности есть слово "middle" сумма будет от 1500 до 2000;
+    если в должности есть слово "senior" сумма будет от 2500 до 3000;
+    для всех остальных - от 4000 до 4500; Для определения того есть ли слово в имени должности используйте метод str.indexOf('часть строки для поиска'). Например:
+    var name = 'Junior developer';
+    name.indexOf('Junior'); 
+    //в данном случае вернет 0, если такая строка отсутсвует вернет -1. 
+    //Регистр имеет значение, по этому строка "junior" вернет -1
+    4. Добавить каждому сотруднику метод tellAboutYourSelf(), который будет сообщать информацию о пользователе (например "Меня зовут John и я - Project manager. Я зарабатываю 4863$.").
+    5. Добавить объекту team метод showTeam(), который будет выводить информацию о всех сотрудниках в консоль в формате: "John - Project manager. Зарплата - 4863$."*
+    Для удобства создайте по порядку все необходимые функции и в конце сделать вызов этих функций в логическом порядке. Например:
+
+    getNames();
+    createTeam();
+    setSalary();
+    создание цикла для установки метода tellAboutYourSelf();
+    создание team.showTeam = function() {...};
+    вызов метода showTeam();
+ -->
+    
+</body>
+    <script>
+        
+      var teamPosition = ['Junior developer', 'Middle developer', 'Senior developer', 'Junior QA', 'Middle QA', 'Senior QA', 'Project manager'];
+      var team = {};
+
+        function getNames (position) {
+            var teamNames = [];
+            for (let i=0; i<position.length; i++) {
+                name = prompt("Вкажіть ім'я та фамілію " + position[i]);
+                teamNames.push(name);
+            };
+            console.log(teamNames)
+            return teamNames;
+        }
+
+        function createTeam (position, name) {              
+            for (let i = 0; i < position.length; i++) {
+            var person = {};
+            person.name = name[i];
+            person.position = position[i];
+            let k = i + 1;
+            let numer = 'Pers' + k;
+            team[numer] = person;
+            };
+        }
+        
+        function setSalaryAndInfo (obj) {
+            for (let pers in obj) {
+                let pos = obj[pers].position;           
+                if (pos.indexOf('Junior') === 0) {obj[pers].salary = Math.floor(Math.random() * (1000 - 500) + 500);}
+                if (pos.indexOf('Middle') === 0) {obj[pers].salary = Math.floor(Math.random() * (2000 - 1500) + 1500);}
+                if (pos.indexOf('Senior') === 0) {obj[pers].salary = Math.floor(Math.random() * (3000 - 2500) + 2500);}
+                if (pos.indexOf('Project') === 0) {obj[pers].salary = Math.floor(Math.random() * (4500 - 4000) + 4000);}; 
+                obj[pers].tellAboutYourSelf = function () {
+                    document.write('Мене звати ' + this.name + '. Я працюю ' + this.position + '. Мій заробіток становить ' + this.salary + '$');
+                    document.write("<br/><br/>");};
+                obj[pers].tellAboutYourSelf();            
+            }
+            obj.showTeam = function () {
+                for (const el in team) {
+                    if (el != 'showTeam') {
+                    document.write(team[el].name + ' - ' + team[el].position + '. Заробіток - ' + team[el].salary + '$');
+                    document.write("<br/><br/>");
+                    } else {break;}
+                }
+            }
+        }       
+        
+        createTeam(teamPosition, getNames(teamPosition));      
+        setSalaryAndInfo(team);      
+        console.log(team);
+        team.showTeam();
+    </script>
+</html>
